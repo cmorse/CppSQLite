@@ -3,6 +3,8 @@ CppSQLite
 
 A simple and easy-to-use cross-platform C++ wrapper for the SQLite API. Fork of the CppSQLite project, originally by Rob Groves, currently updated and maintained by NeoSmart Technologies.
 
+http://www.codeproject.com/Articles/6343/CppSQLite-C-Wrapper-for-SQLite
+
 <pre><code>
 #include "CppSQLite.h"
 #include <ctime>
