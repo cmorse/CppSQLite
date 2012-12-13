@@ -3,7 +3,7 @@ CppSQLite
 
 A simple and easy-to-use cross-platform C++ wrapper for the SQLite API. Fork of the CppSQLite project, originally by Rob Groves, currently updated and maintained by NeoSmart Technologies.
 
-<pre><code>
+<code>
 #include "CppSQLite.h"
 #include <ctime>
 #include <iostream>
@@ -232,4 +232,4 @@ int main(int argc, char** argv)
     return 0;
 }
 
-</code></pre>
+</code>
