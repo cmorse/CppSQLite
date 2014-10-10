@@ -9,39 +9,39 @@
 #define _CppSQLite3_H_
 
 #include "sqlite3.h"
-#include <cstdio>
 #include <cstring>
+#include <string>
 
 #define CPPSQLITE_ERROR 1000
 
 class CppSQLite3Exception
 {
-public:
+  public:
 
     CppSQLite3Exception(const int nErrCode,
                     const char* szErrMess,
                     bool bDeleteMsg=true);
 
-    CppSQLite3Exception(const CppSQLite3Exception&  e);
+    CppSQLite3Exception(const CppSQLite3Exception &e);
 
     virtual ~CppSQLite3Exception();
 
-    const int errorCode() { return mnErrCode; }
+    const int errorCode();
 
-    const char* errorMessage() { return mpszErrMess; }
+    std::string errorMessage();
 
-    static const char* errorCodeAsString(int nErrCode);
+    static std::string errorCodeAsString(int nErrCode);
 
-private:
+  private:
 
     int mnErrCode;
-    char* mpszErrMess;
+    std::string mpszErrMess;
 };
 
 
 class CppSQLite3Buffer
 {
-public:
+  public:
 
     CppSQLite3Buffer();
 
@@ -53,7 +53,7 @@ public:
 
     void clear();
 
-private:
+  private:
 
     char* mpBuf;
 };
@@ -61,7 +61,7 @@ private:
 
 class CppSQLite3Binary
 {
-public:
+  public:
 
     CppSQLite3Binary();
 
@@ -79,7 +79,7 @@ public:
 
     void clear();
 
-private:
+  private:
 
     unsigned char* mpBuf;
     int mnBinaryLen;
@@ -91,49 +91,46 @@ private:
 
 class CppSQLite3Query
 {
-public:
+  public:
 
     CppSQLite3Query();
 
-    CppSQLite3Query(const CppSQLite3Query& rQuery);
+    CppSQLite3Query(const CppSQLite3Query &rQuery);
 
-    CppSQLite3Query(sqlite3* pDB,
-                sqlite3_stmt* pVM,
-                bool bEof,
-                bool bOwnVM=true);
+    CppSQLite3Query(sqlite3* pDB, sqlite3_stmt* pVM, bool bEof, bool bOwnVM=true);
 
-    CppSQLite3Query& operator=(const CppSQLite3Query& rQuery);
+    CppSQLite3Query &operator=(const CppSQLite3Query &rQuery);
 
     virtual ~CppSQLite3Query();
 
     int numFields();
 
-    int fieldIndex(const char* szField);
-    const char* fieldName(int nCol);
+    int fieldIndex(const std::string &szField);
+    std::string fieldName(int nCol);
 
-    const char* fieldDeclType(int nCol);
+    std::string fieldDeclType(int nCol);
     int fieldDataType(int nCol);
 
-    const char* fieldValue(int nField);
-    const char* fieldValue(const char* szField);
+    std::string fieldValue(int nField);
+    std::string fieldValue(const std::string &szField);
 
     int getIntField(int nField, int nNullValue=0);
-    int getIntField(const char* szField, int nNullValue=0);
+    int getIntField(const std::string &szField, int nNullValue=0);
     
     long long getInt64Field(int nField, long long nNullValue=0);
-    long long getInt64Field(const char* szField, long long nNullValue=0);
+    long long getInt64Field(const std::string &szField, long long nNullValue=0);
 
     double getFloatField(int nField, double fNullValue=0.0);
-    double getFloatField(const char* szField, double fNullValue=0.0);
+    double getFloatField(const std::string &szField, double fNullValue=0.0);
 
-    const char* getStringField(int nField, const char* szNullValue="");
-    const char* getStringField(const char* szField, const char* szNullValue="");
+    std::string getStringField(int nField, const std::string &szNullValue="");
+    std::string getStringField(const std::string &szField, const std::string &szNullValue="");
 
-    const unsigned char* getBlobField(int nField, int& nLen);
-    const unsigned char* getBlobField(const char* szField, int& nLen);
+    const unsigned char* getBlobField(int nField, int &nLen);
+    const unsigned char* getBlobField(const std::string &szField, int &nLen);
 
     bool fieldIsNull(int nField);
-    bool fieldIsNull(const char* szField);
+    bool fieldIsNull(const std::string &szField);
 
     bool eof();
 
@@ -141,7 +138,7 @@ public:
 
     void finalize();
 
-private:
+  private:
 
     void checkVM();
 
@@ -155,44 +152,44 @@ private:
 
 class CppSQLite3Table
 {
-public:
+  public:
 
     CppSQLite3Table();
 
-    CppSQLite3Table(const CppSQLite3Table& rTable);
+    CppSQLite3Table(const CppSQLite3Table &rTable);
 
     CppSQLite3Table(char** paszResults, int nRows, int nCols);
 
     virtual ~CppSQLite3Table();
 
-    CppSQLite3Table& operator=(const CppSQLite3Table& rTable);
+    CppSQLite3Table &operator=(const CppSQLite3Table &rTable);
 
     int numFields();
 
     int numRows();
 
-    const char* fieldName(int nCol);
+    std::string fieldName(int nCol);
 
-    const char* fieldValue(int nField);
-    const char* fieldValue(const char* szField);
+    std::string fieldValue(int nField);
+    std::string fieldValue(const std::string &szField);
 
     int getIntField(int nField, int nNullValue=0);
-    int getIntField(const char* szField, int nNullValue=0);
+    int getIntField(const std::string &szField, int nNullValue=0);
 
     double getFloatField(int nField, double fNullValue=0.0);
-    double getFloatField(const char* szField, double fNullValue=0.0);
+    double getFloatField(const std::string &szField, double fNullValue=0.0);
 
-    const char* getStringField(int nField, const char* szNullValue="");
-    const char* getStringField(const char* szField, const char* szNullValue="");
+    const std::string getStringField(int nField, const std::string &szNullValue="");
+    const std::string getStringField(const std::string &szField, const std::string &szNullValue="");
 
     bool fieldIsNull(int nField);
-    bool fieldIsNull(const char* szField);
+    bool fieldIsNull(const std::string &szField);
 
     void setRow(int nRow);
 
     void finalize();
 
-private:
+  private:
 
     void checkResults();
 
@@ -205,23 +202,23 @@ private:
 
 class CppSQLite3Statement
 {
-public:
+  public:
 
     CppSQLite3Statement();
 
-    CppSQLite3Statement(const CppSQLite3Statement& rStatement);
+    CppSQLite3Statement(const CppSQLite3Statement &rStatement);
 
     CppSQLite3Statement(sqlite3* pDB, sqlite3_stmt* pVM);
 
     virtual ~CppSQLite3Statement();
 
-    CppSQLite3Statement& operator=(const CppSQLite3Statement& rStatement);
+    CppSQLite3Statement &operator=(const CppSQLite3Statement &rStatement);
 
     int execDML();
 
     CppSQLite3Query execQuery();
 
-    void bind(int nParam, const char* szValue);
+    void bind(int nParam, const std::string &szValue);
     void bind(int nParam, const int nValue);
     void bind(int nParam, const long long nValue);
     void bind(int nParam, const double dwValue);
@@ -232,7 +229,7 @@ public:
 
     void finalize();
 
-private:
+  private:
 
     void checkDB();
     void checkVM();
@@ -244,27 +241,27 @@ private:
 
 class CppSQLite3DB
 {
-public:
+  public:
 
     CppSQLite3DB();
 
     virtual ~CppSQLite3DB();
 
-    void open(const char* szFile);
+    void open(const std::string &szFile);
 
     void close();
 
-    bool tableExists(const char* szTable);
+    bool tableExists(const std::string &szTable);
 
-    int execDML(const char* szSQL);
+    int execDML(const std::string &szSQL);
 
-    CppSQLite3Query execQuery(const char* szSQL);
+    CppSQLite3Query execQuery(const std::string &szSQL);
 
-    int execScalar(const char* szSQL);
+    int execScalar(const std::string &szSQL);
 
-    CppSQLite3Table getTable(const char* szSQL);
+    CppSQLite3Table getTable(const std::string &szSQL);
 
-    CppSQLite3Statement compileStatement(const char* szSQL);
+    CppSQLite3Statement compileStatement(const std::string &szSQL);
 
     sqlite_int64 lastRowId();
 
@@ -274,12 +271,12 @@ public:
 
     static const char* SQLiteVersion() { return SQLITE_VERSION; }
 
-private:
+  private:
 
-    CppSQLite3DB(const CppSQLite3DB& db);
-    CppSQLite3DB& operator=(const CppSQLite3DB& db);
+    CppSQLite3DB(const CppSQLite3DB &db);
+    CppSQLite3DB &operator=(const CppSQLite3DB &db);
 
-    sqlite3_stmt* compile(const char* szSQL);
+    sqlite3_stmt* compile(const std::string &szSQL);
 
     void checkDB();
 
