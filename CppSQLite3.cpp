@@ -308,7 +308,11 @@ string CppSQLite3Query::fieldValue(int nField)
     throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
   }
 
-  return reinterpret_cast<const char *>(sqlite3_column_text(mpVM, nField));
+  if (sqlite3_column_type(mpVM, nField) == SQLITE_NULL) {
+    return "";
+  } else {
+    return reinterpret_cast<const char *>(sqlite3_column_text(mpVM, nField));
+  }
 }
 
 string CppSQLite3Query::fieldValue(const string &szField)
