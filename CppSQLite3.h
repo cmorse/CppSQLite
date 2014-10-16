@@ -44,14 +44,13 @@
 class CppSQLite3Exception
 {
   public:
-
     CppSQLite3Exception(const int nErrCode,
                     const char* szErrMess,
                     bool bDeleteMsg=true);
 
     CppSQLite3Exception(const CppSQLite3Exception &e);
 
-    virtual ~CppSQLite3Exception();
+    ~CppSQLite3Exception();
 
     const int errorCode();
 
@@ -60,7 +59,6 @@ class CppSQLite3Exception
     static std::string errorCodeAsString(int nErrCode);
 
   private:
-
     int mnErrCode;
     std::string mpszErrMess;
 };
@@ -69,9 +67,7 @@ class CppSQLite3Exception
 class CppSQLite3Buffer
 {
   public:
-
     CppSQLite3Buffer();
-
     ~CppSQLite3Buffer();
 
     const char* format(const char* szFormat, ...);
@@ -81,7 +77,6 @@ class CppSQLite3Buffer
     void clear();
 
   private:
-
     char* mpBuf;
 };
 
@@ -89,9 +84,7 @@ class CppSQLite3Buffer
 class CppSQLite3Binary
 {
   public:
-
     CppSQLite3Binary();
-
     ~CppSQLite3Binary();
 
     void setBinary(const unsigned char* pBuf, int nLen);
@@ -119,55 +112,49 @@ class CppSQLite3Binary
 class CppSQLite3Query
 {
   public:
-
     CppSQLite3Query();
-
     CppSQLite3Query(const CppSQLite3Query &rQuery);
-
     CppSQLite3Query(sqlite3* pDB, sqlite3_stmt* pVM, bool bEof, bool bOwnVM=true);
-
     CppSQLite3Query &operator=(const CppSQLite3Query &rQuery);
+    ~CppSQLite3Query();
 
-    virtual ~CppSQLite3Query();
+    int numFields() const;
 
-    int numFields();
+    int fieldIndex(const std::string &szField) const;
+    std::string fieldName(int nCol) const;
 
-    int fieldIndex(const std::string &szField);
-    std::string fieldName(int nCol);
+    std::string fieldDeclType(int nCol) const;
+    int fieldDataType(int nCol) const;
 
-    std::string fieldDeclType(int nCol);
-    int fieldDataType(int nCol);
+    std::string fieldValue(int nField) const;
+    std::string fieldValue(const std::string &szField) const;
 
-    std::string fieldValue(int nField);
-    std::string fieldValue(const std::string &szField);
-
-    int getIntField(int nField, int nNullValue=0);
-    int getIntField(const std::string &szField, int nNullValue=0);
+    int getIntField(int nField, int nNullValue=0) const;
+    int getIntField(const std::string &szField, int nNullValue=0) const;
     
-    int64_t getInt64Field(int nField, int64_t nNullValue=0);
-    int64_t getInt64Field(const std::string &szField, int64_t nNullValue=0);
+    int64_t getInt64Field(int nField, int64_t nNullValue=0) const;
+    int64_t getInt64Field(const std::string &szField, int64_t nNullValue=0) const;
 
-    double getFloatField(int nField, double fNullValue=0.0);
-    double getFloatField(const std::string &szField, double fNullValue=0.0);
+    double getFloatField(int nField, double fNullValue=0.0) const;
+    double getFloatField(const std::string &szField, double fNullValue=0.0) const;
 
-    std::string getStringField(int nField, const std::string &szNullValue="");
-    std::string getStringField(const std::string &szField, const std::string &szNullValue="");
+    std::string getStringField(int nField, const std::string &szNullValue="") const;
+    std::string getStringField(const std::string &szField, const std::string &szNullValue="") const;
 
-    const unsigned char* getBlobField(int nField, int &nLen);
-    const unsigned char* getBlobField(const std::string &szField, int &nLen);
+    const unsigned char* getBlobField(int nField, int &nLen) const;
+    const unsigned char* getBlobField(const std::string &szField, int &nLen) const;
 
-    bool fieldIsNull(int nField);
-    bool fieldIsNull(const std::string &szField);
+    bool fieldIsNull(int nField) const;
+    bool fieldIsNull(const std::string &szField) const;
 
-    bool eof();
+    bool eof() const;
 
     void nextRow();
 
     void finalize();
 
   private:
-
-    void checkVM();
+    void checkVM() const;
 
     sqlite3* mpDB;
     sqlite3_stmt* mpVM;
@@ -180,37 +167,33 @@ class CppSQLite3Query
 class CppSQLite3Table
 {
   public:
-
     CppSQLite3Table();
-
     CppSQLite3Table(const CppSQLite3Table &rTable);
-
     CppSQLite3Table(char** paszResults, int nRows, int nCols);
-
-    virtual ~CppSQLite3Table();
+    ~CppSQLite3Table();
 
     CppSQLite3Table &operator=(const CppSQLite3Table &rTable);
 
-    int numFields();
+    int numFields() const;
 
-    int numRows();
+    int numRows() const;
 
     std::string fieldName(int nCol);
 
-    std::string fieldValue(int nField);
-    std::string fieldValue(const std::string &szField);
+    std::string fieldValue(int nField) const;
+    std::string fieldValue(const std::string &szField) const;
 
-    int getIntField(int nField, int nNullValue=0);
-    int getIntField(const std::string &szField, int nNullValue=0);
+    int getIntField(int nField, int nNullValue=0) const;
+    int getIntField(const std::string &szField, int nNullValue=0) const;
 
-    double getFloatField(int nField, double fNullValue=0.0);
-    double getFloatField(const std::string &szField, double fNullValue=0.0);
+    double getFloatField(int nField, double fNullValue=0.0) const;
+    double getFloatField(const std::string &szField, double fNullValue=0.0) const;
 
-    const std::string getStringField(int nField, const std::string &szNullValue="");
-    const std::string getStringField(const std::string &szField, const std::string &szNullValue="");
+    const std::string getStringField(int nField, const std::string &szNullValue="") const;
+    const std::string getStringField(const std::string &szField, const std::string &szNullValue="") const;
 
-    bool fieldIsNull(int nField);
-    bool fieldIsNull(const std::string &szField);
+    bool fieldIsNull(int nField) const;
+    bool fieldIsNull(const std::string &szField) const;
 
     void setRow(int nRow);
 
@@ -218,10 +201,10 @@ class CppSQLite3Table
 
   private:
 
-    void checkResults();
+    void checkResults() const;
 
-    int mnCols;
     int mnRows;
+    int mnCols;
     int mnCurrentRow;
     char** mpaszResults;
 };
@@ -230,20 +213,16 @@ class CppSQLite3Table
 class CppSQLite3Statement
 {
   public:
-
     CppSQLite3Statement();
-
     CppSQLite3Statement(const CppSQLite3Statement &rStatement);
-
     CppSQLite3Statement(sqlite3* pDB, sqlite3_stmt* pVM);
-
-    virtual ~CppSQLite3Statement();
+    ~CppSQLite3Statement();
 
     CppSQLite3Statement &operator=(const CppSQLite3Statement &rStatement);
 
-    int execDML();
+    int execDML() const;
 
-    CppSQLite3Query execQuery();
+    CppSQLite3Query execQuery() const;
 
     void bind(int nParam, const std::string &szValue);
     void bind(int nParam, const int nValue);
@@ -257,9 +236,8 @@ class CppSQLite3Statement
     void finalize();
 
   private:
-
-    void checkDB();
-    void checkVM();
+    void checkDB() const;
+    void checkVM() const;
 
     sqlite3* mpDB;
     sqlite3_stmt* mpVM;
@@ -269,28 +247,26 @@ class CppSQLite3Statement
 class CppSQLite3DB
 {
   public:
-
     CppSQLite3DB();
-
-    virtual ~CppSQLite3DB();
+    ~CppSQLite3DB();
 
     void open(const std::string &szFile);
 
     void close();
 
-    bool tableExists(const std::string &szTable);
+    bool tableExists(const std::string &szTable) const;
 
     int execDML(const std::string &szSQL);
 
-    CppSQLite3Query execQuery(const std::string &szSQL);
+    CppSQLite3Query execQuery(const std::string &szSQL) const;
 
-    int execScalar(const std::string &szSQL);
+    int execScalar(const std::string &szSQL) const;
 
-    CppSQLite3Table getTable(const std::string &szSQL);
+    CppSQLite3Table getTable(const std::string &szSQL) const;
 
-    CppSQLite3Statement compileStatement(const std::string &szSQL);
+    CppSQLite3Statement compileStatement(const std::string &szSQL) const;
 
-    sqlite_int64 lastRowId();
+    sqlite_int64 lastRowId() const;
 
     void interrupt() { sqlite3_interrupt(mpDB); }
 
@@ -299,13 +275,12 @@ class CppSQLite3DB
     static const char* SQLiteVersion() { return SQLITE_VERSION; }
 
   private:
-
     CppSQLite3DB(const CppSQLite3DB &db);
     CppSQLite3DB &operator=(const CppSQLite3DB &db);
 
-    sqlite3_stmt* compile(const std::string &szSQL);
+    sqlite3_stmt* compile(const std::string &szSQL) const;
 
-    void checkDB();
+    void checkDB() const;
 
     sqlite3* mpDB;
     int mnBusyTimeoutMs;
