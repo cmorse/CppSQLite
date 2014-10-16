@@ -23,10 +23,6 @@ static const bool DONT_DELETE_MSG=false;
 int sqlite3_encode_binary(const unsigned char *in, int n, unsigned char *out);
 int sqlite3_decode_binary(const unsigned char *in, unsigned char *out);
 
-int main() {
-
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -336,7 +332,7 @@ int CppSQLite3Query::getIntField(const string &szField, int nNullValue)
   return getIntField(nField, nNullValue);
 }
 
-long long CppSQLite3Query::getInt64Field(int nField, long long nNullValue)
+int64_t CppSQLite3Query::getInt64Field(int nField, int64_t nNullValue)
 {
   if (fieldDataType(nField) == SQLITE_NULL) {
     return nNullValue;
@@ -345,7 +341,7 @@ long long CppSQLite3Query::getInt64Field(int nField, long long nNullValue)
   }
 }
 
-long long CppSQLite3Query::getInt64Field(const string &szField, long long nNullValue)
+int64_t CppSQLite3Query::getInt64Field(const string &szField, int64_t nNullValue)
 {
   int nField = fieldIndex(szField);
   return getIntField(nField, nNullValue);
@@ -805,7 +801,7 @@ void CppSQLite3Statement::bind(int nParam, const int nValue)
   }
 }
 
-void CppSQLite3Statement::bind(int nParam, const long long nValue)
+void CppSQLite3Statement::bind(int nParam, const int64_t nValue)
 {
   checkVM();
   int nRes = sqlite3_bind_int64(mpVM, nParam, nValue);

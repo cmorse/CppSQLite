@@ -37,6 +37,7 @@
 #include "sqlite3.h"
 #include <cstring>
 #include <string>
+#include <inttypes.h>
 
 #define CPPSQLITE_ERROR 1000
 
@@ -143,8 +144,8 @@ class CppSQLite3Query
     int getIntField(int nField, int nNullValue=0);
     int getIntField(const std::string &szField, int nNullValue=0);
     
-    long long getInt64Field(int nField, long long nNullValue=0);
-    long long getInt64Field(const std::string &szField, long long nNullValue=0);
+    int64_t getInt64Field(int nField, int64_t nNullValue=0);
+    int64_t getInt64Field(const std::string &szField, int64_t nNullValue=0);
 
     double getFloatField(int nField, double fNullValue=0.0);
     double getFloatField(const std::string &szField, double fNullValue=0.0);
@@ -246,7 +247,7 @@ class CppSQLite3Statement
 
     void bind(int nParam, const std::string &szValue);
     void bind(int nParam, const int nValue);
-    void bind(int nParam, const long long nValue);
+    void bind(int nParam, const int64_t nValue);
     void bind(int nParam, const double dwValue);
     void bind(int nParam, const unsigned char* blobValue, int nLen);
     void bindNull(int nParam);
